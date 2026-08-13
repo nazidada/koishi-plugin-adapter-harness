@@ -1,0 +1,43 @@
+name: Bug report
+description: Report a reproducible problem in koishi-plugin-adapter-harness.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping improve the project. Never paste API keys or private chat content.
+  - type: input
+    id: version
+    attributes:
+      label: Plugin version
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Include Node.js, Koishi, platform adapter, and operating-system versions.
+      placeholder: Node.js 24, Koishi 4.18.11, OneBot, macOS
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Provide the smallest reproducible configuration with all secrets removed.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and logs
+      description: Redact API keys, platform identifiers, and private message content.
+    validations:
+      required: true

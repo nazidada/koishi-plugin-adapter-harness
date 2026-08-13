@@ -2,6 +2,9 @@
 
 把 Koishi 会话桥接到 DeepSeek Harness Agent Runtime。
 
+[![CI](https://github.com/nazidada/koishi-plugin-adapter-harness/actions/workflows/ci.yml/badge.svg)](https://github.com/nazidada/koishi-plugin-adapter-harness/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 这是首个可运行版本：Koishi 接收和发送消息，DeepSeek Harness 维护 Agent 会话并调用模型。默认内置 Runtime 是纯聊天组合，不向模型暴露 Bash、文件系统、Skill、Job 或子代理工具。
 
 ## 环境要求
@@ -24,7 +27,16 @@ npm run check
 
 `npm run test:koishi` 会用真实 Koishi `Context` 验证插件加载、Service/命令注册和释放流程，同样不会发起模型请求。
 
-要把这个本地项目接入另一个 Koishi 项目，可以在 Koishi 项目目录执行：
+要从 GitHub 使用当前未发布版本，请先克隆并构建：
+
+```bash
+git clone https://github.com/nazidada/koishi-plugin-adapter-harness.git
+cd koishi-plugin-adapter-harness
+npm ci
+npm run build
+```
+
+然后在 Koishi 项目目录安装这个本地构建：
 
 ```bash
 npm install /absolute/path/to/koishi-plugin-adapter-harness
@@ -111,3 +123,5 @@ await ctx.harnessAdapter.restart()
 - Harness RC 协议可能继续变化。
 
 详细设计与后续里程碑见 [PLAN.md](./PLAN.md)。
+
+参与开发请阅读 [CONTRIBUTING.md](./CONTRIBUTING.md)。安全问题请按照 [SECURITY.md](./SECURITY.md) 私下报告，不要提交公开 Issue。
