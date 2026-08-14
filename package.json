@@ -1,6 +1,6 @@
 {
   "name": "koishi-plugin-adapter-harness",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Bridge Koishi conversations to a DeepSeek Harness runtime.",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -26,6 +26,7 @@
   "files": [
     "dist",
     ".env.example",
+    "CHANGELOG.md",
     "CONTRIBUTING.md",
     "LICENSE",
     "PLAN.md",
@@ -35,7 +36,9 @@
   ],
   "scripts": {
     "build": "pkgroll --sourcemap",
-    "check": "npm run check-types && npm run test && npm run build && npm run test:runtime && npm run test:koishi && npm run publint",
+    "check": "npm run check-types && npm run test && npm run build && npm run check:permissions && npm run test:runtime && npm run test:koishi && npm run publint && npm run check:package",
+    "check:package": "node scripts/check-package.mjs",
+    "check:permissions": "node scripts/check-permissions.mjs",
     "check-types": "tsc --noEmit",
     "clean": "rimraf dist coverage tsconfig.tsbuildinfo",
     "publint": "publint",
@@ -43,6 +46,7 @@
     "test:coverage": "vitest run --coverage",
     "test:koishi": "node scripts/smoke-koishi.mjs",
     "test:runtime": "node scripts/smoke-runtime.mjs",
+    "prepack": "npm run build && npm run check:permissions && npm run check:package",
     "prepublishOnly": "npm run check"
   },
   "engines": {
