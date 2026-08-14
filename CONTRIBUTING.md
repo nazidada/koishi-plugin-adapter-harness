@@ -11,6 +11,8 @@ npm ci
 npm run check
 ```
 
+Never run project npm or Git commands with `sudo`. The verification pipeline includes repository and npm-package permission checks; if either reports foreign ownership, inspect and repair only the exact affected path before continuing.
+
 The automated Runtime and Koishi lifecycle smoke tests do not call the DeepSeek API. A real model test is optional and must use a local environment variable; never commit a key or real private conversation.
 
 ## Pull requests
@@ -20,6 +22,7 @@ The automated Runtime and Koishi lifecycle smoke tests do not call the DeepSeek 
 - Update `README.md` and `PLAN.md` when configuration, architecture, or limitations change.
 - Explain compatibility impact when changing Koishi or Harness dependencies.
 - Ensure `npm run check` passes before requesting review.
+- Run `npm run check:permissions` after recovering from any local `EACCES` error.
 
 ## Reporting bugs
 

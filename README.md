@@ -44,6 +44,35 @@ npm install /absolute/path/to/koishi-plugin-adapter-harness
 
 随后按下方示例启用 `adapter-harness`。正式发布前也可以先执行 `npm pack --dry-run` 检查包内容。
 
+## macOS 文件权限排查
+
+本项目的安装、构建、测试和打包都不需要 `sudo`。使用 `sudo npm ...` 或 `sudo git ...` 可能留下归 `root` 所有的 Git 对象、依赖或缓存，使后续的普通用户安装、提交和发布出现 `EACCES`。
+
+项目内置两项发布前检查：
+
+```bash
+npm run check:permissions
+npm run check:package
+```
+
+前者检查 Git 文件模式、项目目录可写性、POSIX 所有者以及构建产物模式；后者检查 npm 包内只有命令入口 `dist/runtime.js` 是可执行文件。GitHub 不保存本机的 uid、gid、ACL 或 macOS 扩展属性，但会保存可执行位，因此两类问题需要分别检查。
+
+遇到 `EACCES` 时，先用只读命令定位，不要直接修改整个主目录：
+
+```bash
+find . -xdev ! -user "$(id -un)" -print
+find "$(npm config get cache)" -xdev ! -user "$(id -un)" -print
+find "$(npm config get prefix)" -xdev ! -user "$(id -un)" -print
+```
+
+确认某个具体目录确实是误用 `sudo` 产生后，只修复该路径：
+
+```bash
+sudo chown -R "$(id -un)":"$(id -gn)" /absolute/confirmed/path
+```
+
+不要把上述命令指向整个主目录、磁盘根目录或未经核对的通配路径。修复后重新运行 `npm ci` 和 `npm run check`。
+
 ## Koishi 配置示例
 
 ```yaml
